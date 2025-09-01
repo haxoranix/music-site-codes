@@ -1,0 +1,63 @@
+/* Subscription card wrapper */
+.dps-pack {
+  background: #1e1e1e !important;
+  border: 1px solid #333;
+  padding: 20px;
+  margin-top: 10px;
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.6;
+  border-radius: 5px;
+  text-align: left;
+}
+
+/* Price styling */
+.dps-pack-price {
+  font-size: 18px;
+  font-weight: 600;
+  color: #00ffcc;
+  margin: 0 0 6px 0;
+  padding: 0;
+  display: block;
+  text-align: left;
+  float: none !important;
+  line-height: 1.4;
+}
+
+/* Plan title (e.g., Monthly Plan) */
+.dps-pack .pack_content b {
+  display: block;
+  font-size: 16px;
+  color: #00e6e6;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+/* Feature list wrapper */
+.dps-pack .pack_content ul.ak-ul {
+  list-style: disc;
+  list-style-position: inside;
+  padding-left: 0;
+  margin: 0;
+  color: #fff;
+}
+
+/* Feature list items */
+.dps-pack .pack_content ul.ak-ul li {
+  margin-bottom: 6px;
+  padding-left: 0;
+  text-indent: 0;
+  line-height: 1.5;
+  color: #fff;
+}
+
+/* Optional: highlight last feature */
+.dps-pack .pack_content ul.ak-ul li:last-child {
+  font-weight: 500;
+  color: #00ffaa;
+}
+
+/* Ensure bullet color consistency */
+.dps-pack .pack_content ul.ak-ul li::marker {
+  color: #fff;
+}
