@@ -1,0 +1,132 @@
+add_shortcode('artist_carousel', function () {
+    if (!function_exists('dokan')) return 'Dokan plugin not active';
+
+    $vendors = get_users([
+        'role__in' => ['vendor', 'seller'],
+        'number'   => -1,
+    ]);
+
+    if (empty($vendors)) return 'No artists found.';
+
+    ob_start(); ?>
+    <style>
+        /* General Carousel Wrapper */
+        .artist-carousel-wrapper {
+            overflow: hidden;
+            position: relative;
+            margin: 30px 0;
+        }
+
+        /* Carousel Container */
+        .artist-carousel {
+            display: flex;
+            gap: 20px;
+            padding: 10px;
+            animation: scrollLeft 40s linear infinite;
+        }
+
+        /* Pause Animation on Hover */
+        .artist-carousel:hover {
+            animation-play-state: paused;
+        }
+
+        /* Keyframes for Infinite Scroll */
+        @keyframes scrollLeft {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Artist Card Styling */
+        .artist-card {
+            background: #131111;
+            border: 1px solid #333;
+            border-radius: 12px;
+            text-align: center;
+            padding: 25px 15px 50px;
+            color: #F1FFFD;
+            flex: 0 0 220px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Hover Effect */
+        .artist-card:hover {
+            border-color: #00D6B2;
+            box-shadow: 0 8px 15px rgba(0, 214, 178, 0.5);
+            transform: translateY(-5px);
+        }
+
+        /* Avatar Styling */
+        .artist-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 15px;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .artist-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Name Styling */
+        .artist-name {
+            font-size: 18px;
+            font-weight: 600;
+            padding: 15px;
+            line-height: 1.2;
+        }
+
+        /* Responsive Design */
+        @media(max-width: 768px) {
+            .artist-card {
+                flex: 0 0 160px;
+            }
+        }
+
+        @media(max-width: 480px) {
+            .artist-card {
+                flex: 0 0 140px;
+            }
+        }
+    </style>
+
+    <div class="artist-carousel-wrapper">
+        <div class="artist-carousel">
+            <?php foreach ($vendors as $vendor): 
+                $store_url = dokan_get_store_url($vendor->ID);
+                $store_info = dokan_get_store_info($vendor->ID);
+                $store_name = $store_info['store_name'] ?? $vendor->display_name;
+                $avatar_url = get_avatar_url($vendor->ID, ['size' => 150]);
+            ?>
+                <div class="artist-card">
+                    <a href="<?php echo esc_url($store_url); ?>" class="artist-avatar">
+                        <img src="<?php echo esc_url($avatar_url); ?>" alt="<?php echo esc_attr($store_name); ?>">
+                    </a>
+                    <div class="artist-name"><?php echo esc_html($store_name); ?></div>
+                </div>
+            <?php endforeach; ?>
+            
+            <!-- Clone Cards for Infinite Loop -->
+            <?php foreach ($vendors as $vendor): 
+                $store_url = dokan_get_store_url($vendor->ID);
+                $store_info = dokan_get_store_info($vendor->ID);
+                $store_name = $store_info['store_name'] ?? $vendor->display_name;
+                $avatar_url = get_avatar_url($vendor->ID, ['size' => 150]);
+            ?>
+                <div class="artist-card">
+                    <a href="<?php echo esc_url($store_url); ?>" class="artist-avatar">
+                        <img src="<?php echo esc_url($avatar_url); ?>" alt="<?php echo esc_attr($store_name); ?>">
+                    </a>
+                    <div class="artist-name"><?php echo esc_html($store_name); ?></div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+});
